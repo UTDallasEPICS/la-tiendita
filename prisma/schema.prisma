@@ -11,39 +11,39 @@ datasource db {
 }
 
 model User {
-  id              Int              @id @default(autoincrement())
-  role            String
-  name            String
-  email           String           @unique
-  dateCreated     DateTime 
-  // surveyResults   SurveyResult[]   // Might remove this as it may not be necessary
+  id            Int            @id @default(autoincrement())
+  role          String
+  name          String
+  email         String         @unique
+  dateCreated   DateTime
+  surveyResults SurveyResult[] // Might remove this as it may not be necessary
 }
 
 model Survey {
-  id              Int              @id @default(autoincrement())
-  title            String
-  lastModified    DateTime
-  questions       Question[]       
+  id           Int            @id @default(autoincrement())
+  title        String
+  lastModified DateTime
+  questions    Question[]
+  SurveyResult SurveyResult[]
 }
 
 model Question {
-  id              Int              @id @default(autoincrement())
-  category        String
-  questionString  String
-  type            String
-  weight          Float
-  surveyId        Int
-  survey          Survey           @relation(fields: [surveyId], references: [id])  
+  id             Int    @id @default(autoincrement())
+  category       String
+  questionString String
+  type           String
+  weight         Float
+  surveyId       Int
+  survey         Survey @relation(fields: [surveyId], references: [id])
 }
 
 model SurveyResult {
-  id              Int              @id @default(autoincrement())
-  answersData     Json             // Stores answers as JSON (question -> answer mapping)
-  userId          Int
-  surveyId        Int
-  lastModified    DateTime
-  status          String           // 'OnGoing' or 'Complete'
-  user            User             @relation(fields: [userId], references: [id])
-  survey          Survey           @relation(fields: [surveyId], references: [id]) 
+  id           Int      @id @default(autoincrement())
+  answersData  Json // Stores answers as JSON (question -> answer mapping)
+  userId       Int
+  surveyId     Int
+  lastModified DateTime
+  status       String // 'OnGoing' or 'Complete'
+  user         User     @relation(fields: [userId], references: [id])
+  survey       Survey   @relation(fields: [surveyId], references: [id])
 }
-
