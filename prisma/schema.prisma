@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int              @id @default(autoincrement())
+  role            String
+  name            String
+  email           String           @unique
+  dateCreated     DateTime 
+  surveyResults   SurveyResult[]   
+}
+
+model Survey {
+  id              Int              @id @default(autoincrement())
+  title            String
+  lastModified    DateTime
+  questions       Question[]       
+}
+
+model Question {
+  id              Int              @id @default(autoincrement())
+  category        String
+  questionString  String
+  type            String
+  weight          Float
+  surveyId        Int
+  survey          Survey           @relation(fields: [surveyId], references: [id])  
+}
+
+model SurveyResult {
+  id              Int              @id @default(autoincrement())
+  answersData     Json             // Stores answers as JSON (question -> answer mapping)
+  userId          Int
+  surveyId        Int
+  lastModified    DateTime
+  status          String           // 'OnGoing' or 'Complete'
+  user            User             @relation(fields: [userId], references: [id])
+  survey          Survey           @relation(fields: [surveyId], references: [id]) 
+}
+
