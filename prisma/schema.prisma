@@ -16,7 +16,7 @@ model User {
   name            String
   email           String           @unique
   dateCreated     DateTime 
-  surveyResults   SurveyResult[]   
+  // surveyResults   SurveyResult[]   // Might remove this as it may not be necessary
 }
 
 model Survey {
