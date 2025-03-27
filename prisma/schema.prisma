@@ -22,28 +22,36 @@ model User {
 model Survey {
   id           Int            @id @default(autoincrement())
   title        String
-  lastModified DateTime
+  lastModified DateTime       @default(now())
   questions    Question[]
-  SurveyResult SurveyResult[]
+  surveyResults SurveyResult[]
 }
 
 model Question {
   id             Int    @id @default(autoincrement())
-  category       String
+  type           String // 'MCQ' 'Scale' 'Open'
   questionString String
-  type           String
+  choices        Choice[]
+  category       String
   weight         Float
   surveyId       Int
   survey         Survey @relation(fields: [surveyId], references: [id])
 }
 
+model Choice {
+  id           Int       @id @default(autoincrement())
+  choiceString String 
+  questionId   Int 
+  question     Question  @relation(fields: [questionId], references: [id])
+}
+
 model SurveyResult {
   id           Int      @id @default(autoincrement())
-  answersData  Json // Stores answers as JSON (question -> answer mapping)
+  answersData  Json     // Stores answers as JSON (question -> answer mapping)
   userId       Int
   surveyId     Int
-  lastModified DateTime
-  status       String // 'OnGoing' or 'Complete'
+  lastModified DateTime 
+  status       String   // 'OnGoing' or 'Complete'
   user         User     @relation(fields: [userId], references: [id])
   survey       Survey   @relation(fields: [surveyId], references: [id])
 }
