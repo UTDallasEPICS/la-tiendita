@@ -10,6 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum OAuthProvider {
+  discord
+  github
+}
+
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model Session {
+  id        String   @id
+  userId    Int
+  role      Role
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model User {
   id            Int            @id @default(autoincrement())
   role          String
@@ -17,41 +37,56 @@ model User {
   email         String         @unique
   dateCreated   DateTime
   surveyResults SurveyResult[] // Might remove this as it may not be necessary
+  sessions      Session[]
+
+  oauthAccounts OAuthAccount[]
+}
+
+model OAuthAccount {
+  id                Int           @id @default(autoincrement())
+  provider          OAuthProvider
+  providerAccountId String        // Unique ID provided by the OAuth provider
+  userId            Int
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime      @default(now())
+  
+  // Ensure that each user can only link a unique provider account ID
+  @@unique([provider, providerAccountId])
 }
 
 model Survey {
-  id           Int            @id @default(autoincrement())
-  title        String
-  lastModified DateTime       @default(now())
-  questions    Question[]
+  id            Int            @id @default(autoincrement())
+  title         String
+  lastModified  DateTime       @default(now())
+  questions     Question[]
   surveyResults SurveyResult[]
 }
 
 model Question {
-  id             Int    @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   type           String // 'MCQ' 'Scale' 'Open'
   questionString String
   choices        Choice[]
   category       String
   weight         Float
   surveyId       Int
-  survey         Survey @relation(fields: [surveyId], references: [id])
+  survey         Survey   @relation(fields: [surveyId], references: [id])
 }
 
 model Choice {
-  id           Int       @id @default(autoincrement())
-  choiceString String 
-  questionId   Int 
-  question     Question  @relation(fields: [questionId], references: [id])
+  id           Int      @id @default(autoincrement())
+  choiceString String
+  questionId   Int
+  question     Question @relation(fields: [questionId], references: [id])
 }
 
 model SurveyResult {
   id           Int      @id @default(autoincrement())
-  answersData  Json     // Stores answers as JSON (question -> answer mapping)
+  answersData  Json // Stores answers as JSON (question -> answer mapping)
   userId       Int
   surveyId     Int
-  lastModified DateTime 
-  status       String   // 'OnGoing' or 'Complete'
+  lastModified DateTime
+  status       String // 'OnGoing' or 'Complete'
   user         User     @relation(fields: [userId], references: [id])
   survey       Survey   @relation(fields: [surveyId], references: [id])
 }

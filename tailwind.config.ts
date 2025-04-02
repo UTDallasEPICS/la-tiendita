@@ -13,6 +13,12 @@ export default {
         foreground: "var(--foreground)",
         customGray: "#393e46",
       },
+      fontFamily: {
+        sans: ['Roboto', 'Arial', 'sans-serif'],
+        heading: ['Open Sans', 'Arial', 'sans-serif'],
+        bytesized: ['Bytesized', 'sans-serif'],
+      },
+      
     },
   },
   plugins: [],
