@@ -6,7 +6,7 @@ interface ModuleProps {
 
 export default function Module(props: ModuleProps) {
     return (
-      <div className="flex items-center space-x-6 p-6 block border-2 border-blue-500 rounded-lg mb-6 transition duration-300 transform hover:-translate-y-1 max-h-[250px] overflow-hidden">
+      <div className="flex items-center w-full space-x-6 p-6 block border-2 border-blue-500 rounded-lg mb-6 max-h-[250px] overflow-hidden">
         <div className="flex flex-col space-y-2">
             <h1 className="text-xl font-semibold text-customGray">{props.question}</h1>
             <h2 className="text-lg text-customGray">{props.question}</h2>

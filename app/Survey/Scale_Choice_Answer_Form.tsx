@@ -1,3 +1,5 @@
+import Scale_Choice_Answer from "./Scale_Choice_Answer";
+
 interface FormProps {
     numChoices: number;
     lowLabel: string;
@@ -6,21 +8,12 @@ interface FormProps {
 
 export default function Scale_Choice_Answer_Form(props: FormProps) {
     return (
-        <form>
-            <input type="radio" id="Strongly Disagree" value="Strongly Disagree"></input>
-            <label>Strongly Disagree</label><br/>
-
-            <input type="radio" id="Disagree" value="Disagree"></input>
-            <label>Disagree</label><br/>
-
-            <input type="radio" id="Neutral" value="Neutral"></input>
-            <label>Neutral</label><br/>
-
-            <input type="radio" id="Agree" value="Agree"></input>
-            <label>Agree</label><br/>
-
-            <input type="radio" id="Strongly Agree" value="Strongly Agree"></input>
-            <label>Strongly Agree</label><br/>
+        <form className="flex flex-row justify-between w-full space-x-20 items-center">
+            <Scale_Choice_Answer label="Strongly Disagree" />
+            <Scale_Choice_Answer label="Disagree" />
+            <Scale_Choice_Answer label="Neutral" />
+            <Scale_Choice_Answer label="Agree" />
+            <Scale_Choice_Answer label="Strongly Agree" />
         </form>
     );
 }
