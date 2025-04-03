@@ -5,7 +5,7 @@ import OpenResponseAnswerForm from "./OpenResponseAnswerForm";
 interface ModuleProps {
     type: string;
     question: string;
-    answerChoices: string[];
+    answerChoices?: string[];
 }
 
 export default function Module(props: ModuleProps) {
