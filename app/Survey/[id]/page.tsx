@@ -1,6 +1,12 @@
+"use client";
+
+import { useParams } from "next/navigation";
 import Module from "../Module";
 
 export default function Survey() {
+  const params = useParams();
+  const { id } = params;
+  
   return (
     <section className="mt-20 p-5 max-w-5xl mx-auto">
       <div className="flex flex-col justify-center">
