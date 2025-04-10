@@ -22,19 +22,19 @@ export async function GET(request: NextRequest) {
     // Build the prisma filter based on query params
     // Note: WhereInput can be indexed like map. Is it a good practice? 
     const searchParams = request.nextUrl.searchParams
-    for (const field of ['name', 'email', 'role']) {
+    
+    const fieldArr: string[] = ['name', 'email', 'role']
+    fieldArr.forEach((field: string) => {
       if (searchParams.get(field) !== null) {
         filter = true
-        if (field === "name" || field === "email") {
-          // Name and email that includes the query params 
+
+        // Name and email that includes the query params 
+        if (field === "name" || field === "email") 
           prismaFilter[field] = {contains: searchParams.get(field)!}
-        } 
-        else if (field === "role") {
-          // Exact role 
-          prismaFilter[field] = searchParams.get(field)!
-        }
+        // Exact role 
+        else if (field === "role") prismaFilter[field] = searchParams.get(field)!
       }
-    }
+    })
 
     // Query users with the role 
     let users: User[] = []

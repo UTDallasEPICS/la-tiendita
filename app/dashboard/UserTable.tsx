@@ -30,7 +30,7 @@ export default function UserTable() {
         setIsLoading(false)
       }
       catch (error: any) {
-        console.log(error)
+        console.log(error.message)
       }
     }
     getUserData()
@@ -42,9 +42,11 @@ export default function UserTable() {
 
     // Build the URL endpoint appended with the query params
     let endpoint: string = BASE_URL
-    for (const field of Object.keys(filterData)) {
-      if (filterData[field] !== '') endpoint += `${field}=${filterData[field]}&`
-    }
+    Object.keys(filterData).forEach((field: string) => {
+      if (filterData[field] !== '') {
+        endpoint = endpoint.concat(`${field}=${filterData[field]}&`)
+      }
+    })
 
     // Call the API to filter the list of users
     try {

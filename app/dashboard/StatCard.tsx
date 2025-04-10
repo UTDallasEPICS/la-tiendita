@@ -12,9 +12,9 @@ export default function StatCard() {
 			{Object.keys(mainMetrics).map(metric =>
 				<div
 					key={metric}
-					className="bg-primary text-text shadow-lg p-1 rounded-lg"
+					className="bg-white text-text shadow-lg p-1 rounded-lg"
 				>
-					<div className="text-md">{metric}:</div>
+					<div className="text-lg font-semibold">{metric}:</div>
 					<div className="float-right text-3xl mt-1 font-bold">
 						{mainMetrics[metric]}
 					</div>
