@@ -1,5 +1,5 @@
 export default function About() {
     return (
-        <p>About</p>
+        <p className="mt-20 mb-10 text-text">About</p>
     )
 }

@@ -18,12 +18,12 @@ export default function Tests(props: TestProps) {
         alt="company logo"
         width={100}
         height={100}
-        className="w-32 h-32 object-cover"
+        className="h-32 w-auto rounded-full object-cover "
       />
       
       <div className="flex flex-col space-y-2">
-        <h1 className="text-xl font-semibold text-customGray">{props.assessment}</h1>
-        <h2 className="text-lg text-customGray">{props.description}</h2>
+        <h1 className="text-xl font-semibold text-text">{props.assessment}</h1>
+        <h2 className="text-lg text-text">{props.description}</h2>
       </div>
     </a>
   )

@@ -25,7 +25,7 @@ export default async function login({
       />
 
       <div className="flex justify-center items-center h-full">
-        <form className="max-w-[400px] w-full mx-auto bg-white p-8">
+        <form className="max-w-[400px] text-text w-full mx-auto bg-white p-8">
           <h1 className="text-5xl font-bold text-center py-4">La Tiendita</h1>
           <h2 className="text-4xl font-bold text-center py-4 ">Log In</h2>
           {/* <div className="flex justify-between py-8">

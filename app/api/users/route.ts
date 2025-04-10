@@ -1,43 +1,61 @@
-import { PrismaClient } from "@prisma/client";
-import { NextRequest, NextResponse} from "next/server"; 
+import { PrismaClient, Prisma } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient()
 
-/**
- * Capitalize the string 
- * @param str 
- * @returns capitalized str
- */
-function capitalize(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1)
+// Interface for the user
+interface User {
+  id: number;
+  role: string;
+  name: string;
+  email: string;
+  dateCreated: Date;
 }
 
-/**
- * Get the list of users with the specified role on endpoint
- * /users?role=[student | admin]
- * @param request 
- * @returns the list of users 
- */
+// GET method to get users using role specidifed from the endpoint 
+// Endpoint: /users?role=[]?name=[]?email=[]
 export async function GET(request: NextRequest) {
-    try {
-        // The query parameters 'role' 
-        const searchParams = request.nextUrl.searchParams
-        const queriedRole = searchParams.get('role')
+  try {
+    let prismaFilter: Prisma.UserWhereInput = {}
+    let filter: boolean = false // Indicate if we need to filter 
 
-        // Query users with the role 
-        const users = await prisma.user.findMany({
-            where: { role: queriedRole != null ? capitalize(queriedRole) : "" }, 
-            // Don't show the survey results of the user here 
-            include: { surveyResults: false } 
-        })
-
-        return NextResponse.json(users, { status: 200 })
-    } 
-    catch (error: any) {
-        return NextResponse.json(
-            { message: 'Failed to get users matching role', error: error.message }, 
-            { status: 500 }
-        )
+    // Build the prisma filter based on query params
+    // Note: WhereInput can be indexed like map. Is it a good practice? 
+    const searchParams = request.nextUrl.searchParams
+    for (const field of ['name', 'email', 'role']) {
+      if (searchParams.get(field) !== null) {
+        filter = true
+        if (field === "name" || field === "email") {
+          // Name and email that includes the query params 
+          prismaFilter[field] = {contains: searchParams.get(field)!}
+        } 
+        else if (field === "role") {
+          // Exact role 
+          prismaFilter[field] = searchParams.get(field)!
+        }
+      }
     }
+
+    // Query users with the role 
+    let users: User[] = []
+    if (filter) {
+      users = await prisma.user.findMany({
+        where: prismaFilter,
+        // Don't show the survey results of the user here
+        include: { surveyResults: false }
+      })
+    }
+    else {
+      users = await prisma.user.findMany({ include: { surveyResults: false } })
+    }
+    return NextResponse.json(users, { status: 200 })
+  }
+  catch (error: any) {
+    const message: string = 'Failed to get users matching role'
+    return NextResponse.json(
+      { message: message, error: error.message },
+      { status: 500 }
+    )
+  }
 }
 
