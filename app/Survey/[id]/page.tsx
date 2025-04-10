@@ -12,6 +12,9 @@ export default function Survey() {
       <div className="flex flex-col justify-center">
         <Module type="scale"
           question="Do androids dream of electric sheep?"
+          minLabel="Strongly Disagree"
+          maxLabel="Strongly Agree"
+          numChoices={5}
         />
 
         <Module type="mcq"
@@ -26,6 +29,14 @@ export default function Survey() {
         />
 
         <Module type="open"
+          question="Do androids dream of electric sheep?"
+        />
+
+        <Module type="scale"
+          question="Do androids dream of electric sheep?"
+        />
+
+        <Module type="mcq"
           question="Do androids dream of electric sheep?"
         />
       </div>

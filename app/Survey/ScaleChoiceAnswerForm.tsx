@@ -1,13 +1,27 @@
-export default function ScaleChoiceAnswerForm() {
+interface ScaleChoiceAnswerFormProps {
+    minLabel?: string
+    maxLabel?: string
+    numChoices?: number
+}
+
+export default function ScaleChoiceAnswerForm(props: ScaleChoiceAnswerFormProps) {
+    let numChoices = props.numChoices ?? 0;
+
+    if(numChoices == 0) { return <></>; }
+
+    let minLabel = props.minLabel;
+    let maxLabel = props.maxLabel;
+    
+    let answerChoiceInputs = [];
+    for(let i = 1; i <= numChoices; i++) {
+        answerChoiceInputs.push(<input key={i} type="radio" id={i.toString()} name="scale-choice" value={i.toString()} />);
+    }
+    
     return (
         <form className="flex flex-row w-full space-x-5">
-            <label htmlFor="strongly-disagree">Strongly Disagree</label>
-            <input type="radio" id="strongly-disagree" name="scale-choice" value="Strongly Disagree" />
-            <input type="radio" id="disagree" name="scale-choice" value="Disagree" />
-            <input type="radio" id="neutral" name="scale-choice" value="Neutral" />
-            <input type="radio" id="agree" name="scale-choice" value="Agree" />
-            <input type="radio" id="strongly-agree" name="scale-choice" value="Strongly Agree" />
-            <label htmlFor="strongly-agree">Strongly Agree</label>
+            <label htmlFor={answerChoiceInputs[0].props.id}>{minLabel}</label>
+            {answerChoiceInputs}
+            <label htmlFor={answerChoiceInputs[numChoices - 1].props.id}>{maxLabel}</label>
         </form>
     );
 }

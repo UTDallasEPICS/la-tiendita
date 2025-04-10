@@ -3,16 +3,24 @@ import MultipleChoiceAnswerForm from "./MultipleChoiceAnswerForm";
 import OpenResponseAnswerForm from "./OpenResponseAnswerForm";
 
 interface ModuleProps {
+    // General question properties
     type: string;
     question: string;
+
+    // For multiple choice
     answerChoices?: string[];
+
+    // For scalar choice
+    minLabel?: string;
+    maxLabel?: string;
+    numChoices?: number;
 }
 
 export default function Module(props: ModuleProps) {
     let answerForm;
 
     if(props.type == "scale") {
-      answerForm = <ScaleChoiceAnswerForm />
+      answerForm = <ScaleChoiceAnswerForm minLabel={props.minLabel} maxLabel={props.maxLabel} numChoices={props.numChoices} />
     }
     if(props.type == "mcq") {
       answerForm = <MultipleChoiceAnswerForm answerChoices={props.answerChoices} />
