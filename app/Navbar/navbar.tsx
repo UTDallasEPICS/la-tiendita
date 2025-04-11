@@ -13,17 +13,17 @@ export default function Navbar() {
       <div className="container mx-auto px-8 flex justify-between items-center">
         <button 
           className="flex-shrink-0" 
-          onClick={() => router.push('./home')}
+          onClick={() => router.push('/home')}
         >
           <Image src={logo3} className="h-14 w-auto rounded-full object-cover" alt="logo" />
         </button>
         <div className="hidden md:flex space-x-8 text-xl font-semibold tracking-wide">
-          <Link href="./about" className="hover:text-gray-300 transition duration-300 py-1">About</Link>
-          <Link href="./assessments" className="hover:text-gray-300 transition duration-300 py-1">Assessments</Link>
-          <Link href="./results" className="hover:text-gray-300 transition duration-300 py-1">Results</Link>
-          <Link href="./profile" className="hover:text-gray-300 transition duration-300 py-1">Profile</Link>
+          <Link href="/about" className="hover:text-gray-300 transition duration-300 py-1">About</Link>
+          <Link href="/assessments" className="hover:text-gray-300 transition duration-300 py-1">Assessments</Link>
+          <Link href="/results" className="hover:text-gray-300 transition duration-300 py-1">Results</Link>
+          <Link href="/profile" className="hover:text-gray-300 transition duration-300 py-1">Profile</Link>
           <button
-            onClick={() => router.push('./login')}
+            onClick={() => router.push('/login')}
             className="text-xl font-semibold bg-accent rounded-xl py-1 px-4"
           >
             Log in
