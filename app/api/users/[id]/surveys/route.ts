@@ -16,8 +16,12 @@ export async function GET(
         // At least 1 survey result belonging to the user
         surveyResults: { some: { userId: Number(queriedUserId) } }
       },
-      // Don't show survey results of the survey here
-      include: { surveyResults: false }
+      include: {
+        // Show questions with available choices of the survey here
+        questions: {
+          include: { choices: true }
+        }
+      }
     })
     return NextResponse.json(surveys, { status: 200 })
   }
