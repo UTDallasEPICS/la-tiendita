@@ -1,14 +1,18 @@
 "use client";
 import { useState, useRef, useEffect } from 'react';
 
-interface qProps {
+interface questionBubbleProps {
     questionNumber: number;
     type: number;
+    onDeleteQuestion: (questionNumber: number) => void;
 }
 
-export default function QuestionBubble(props: qProps) {
+export default function QuestionBubble({ 
+  questionNumber,
+  type,
+  onDeleteQuestion
+}: questionBubbleProps) {
   const[text, setText] = useState('');
-
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -24,23 +28,42 @@ export default function QuestionBubble(props: qProps) {
 
 return (
   <div
-    className="flex items-center space-x-6 p-6 border-2 min-w-[600px] border-blue-500 rounded-lg mb-6 mt-5 overflow-hidden"
+    className="flex-col items-center space-x-6 p-6 border-2 min-w-[600px] border-blue-500 rounded-lg mb-6 mt-5 overflow-hidden"
   >
-
-    <div className="flex flex-col space-y-2 X">
-      <h1 className="text-xl font-semibold text-customGray">{props.questionNumber}</h1>
+    {/* text box */}
+    <div className="flex-grow flex-col space-y-2 w-full X">
+      <h1 className="text-xl font-semibold text-customGray">{questionNumber}</h1>
       <textarea
         ref={textareaRef}
         value={text}
         onChange={handleChange}
-        className="border-2 p-2 rounder-lg bg-transparent border-transparent resize-none w-full max-w-[280px] min-w-[280px] placeholder:text-gray-400"
+        className="border-2 p-2 rounder-lg bg-transparent border-transparent resize-none w-full min-w-[280px] placeholder:text-gray-400"
         placeholder="Type the question..."
       />
-
-      {/* <div className="mt-4">
-        <p>{text}</p>
-      </div> */}
     </div>
+
+    {/* bottom buttons */}
+    <div
+      className="flex mt-2 pr-5 justify-end w-full"
+    >
+      {/* trash button */}
+      <button 
+        onClick= {() => onDeleteQuestion(questionNumber)}
+        className="relative group cursor-pointer"
+      >
+        <img
+          src="/trashicongray.png"
+          alt="Delete"
+          className="w-5 h-5 group-hover:hidden"
+        />
+        <img
+          src="/trashiconred.png"
+          alt="Delete (hover)"
+          className="w-5 h-5 hidden group-hover:block absolute"
+        />
+      </button>
+    </div>
+
   </div>
 )
 }

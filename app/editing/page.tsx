@@ -1,19 +1,60 @@
+"use client";
+
+import { useState } from 'react';
 import NewQuestion from "./NewQuestion";
+import QuestionBubble from './QuestionBubble';
+
+interface QuestionBubbleType {
+  questionNumber: number;
+  type: number;
+}
 
 export default function Editing() {
+  {/**/}
+  const [questionBubbles, setQuestionBubbles] = useState<QuestionBubbleType[]>([
+    {
+      questionNumber: 1,
+      type: 3
+    }
+  ]);
+
+  const addQuestionBubble = () => {
+    setQuestionBubbles([
+      ...questionBubbles,
+      {
+        questionNumber: questionBubbles.length + 1,
+        type: 3
+      }
+    ]);
+  };
+
+  const deleteQuestionBubble = (questionNumber : number) => {
+    setQuestionBubbles(prevBubbles => {
+      // make a new array with everything but the correct question
+      const newBubbles = prevBubbles.filter(bubble => bubble.questionNumber !== questionNumber);
+
+      //reassign numbers sequentially
+      return newBubbles.map((bubble, index) => ({
+        ...bubble,
+        questionNumber: index + 1
+      }))
+    })
+  };
+
   return (
-    
     <section className="mt-20 p-5 max-w-[1000px] mx-auto">
       <div className="flex flex-wrap flex-col justify-center items-center">
-        {/* <QuestionBubble
-          questionNumber= {1} // dynamic? instead? hmmm
-          question= "What time is it"
-          type= {2}
-        /> */}
-
-        {/*<hr className="my-4 border-gray-400" /> This adds a line so they are on top of each other*/}
+        {/* rendering the QuestionBubbles here */}
+        {questionBubbles.map((bubble) => (
+          <QuestionBubble
+            key={bubble.questionNumber}
+            questionNumber={bubble.questionNumber}
+            type={bubble.type}
+            onDeleteQuestion={deleteQuestionBubble}
+          />
+        ))}
         
-        <NewQuestion/>
+        <NewQuestion onAddQuestion={addQuestionBubble} />
       </div>
     </section>
   );
