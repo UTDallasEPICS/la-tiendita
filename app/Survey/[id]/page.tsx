@@ -2,6 +2,54 @@
 
 import { useParams } from "next/navigation";
 import Module from "../Module";
+import { DateTime } from "next-auth/providers/kakao";
+import { JsonObject } from "@prisma/client/runtime/library";
+
+interface Survey {
+  id: number;
+  title: string;
+  lastModified: DateTime;
+  questions: Question[];
+  surveyResults: SurveyResult[];
+}
+
+interface Question {
+  id: number;
+  type: string;
+  questionString: string;
+  choices: Choice[];
+  category: string;
+  weight: number;
+  surveyId: number;
+  survey: Survey;
+}
+
+interface Choice {
+  id: number;
+  choiceString: string;
+  questionId: number;
+  question: Question;
+}
+
+interface SurveyResult {
+  id: number;
+  answersData: JsonObject;
+  userId: number;
+  surveyId: number;
+  lastModified: DateTime;
+  status: string;
+  user: User;
+  survey: Survey; 
+}
+
+interface User {
+  id: number;
+  role: string;
+  name: string;
+  email: string;
+  dateCreated: DateTime;
+  surveyResults: SurveyResult[];
+}
 
 export default function Survey() {
   const params = useParams();

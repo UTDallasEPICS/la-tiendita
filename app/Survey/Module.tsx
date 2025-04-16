@@ -2,6 +2,23 @@ import ScaleChoiceAnswerForm from "./ScaleChoiceAnswerForm";
 import MultipleChoiceAnswerForm from "./MultipleChoiceAnswerForm";
 import OpenResponseAnswerForm from "./OpenResponseAnswerForm";
 
+interface Question {
+  id: number;
+  type: string;
+  questionString: string;
+  choices: Choice[];
+  category: string;
+  weight: number;
+  surveyId: number;
+}
+
+interface Choice {
+  id: number;
+  choiceString: string;
+  questionId: number;
+  question: Question;
+}
+
 interface ModuleProps {
     // General question properties
     type: string;
