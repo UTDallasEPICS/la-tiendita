@@ -1,5 +1,5 @@
 import Intro from "../home/Intro";
-import Surveys from "./Surveys/Surveys";
+import Surveys from "./surveys/Surveys";
 
 export default function Landing() {
     return (
