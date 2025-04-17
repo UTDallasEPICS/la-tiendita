@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "chart.js": "^4.4.9",
     "next": "^15.2.5",
     "next-auth": "^4.24.11",
     "react": "^19.0.0",
