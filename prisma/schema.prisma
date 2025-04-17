@@ -21,10 +21,22 @@ enum Role {
   USER
 }
 
+enum QuestionType  {
+   SCALAR
+   MULTIPLE_CHOICE  
+   FREE_RESPONSE 
+}
+
+enum SurveyStatus { 
+  OnGoing 
+  Complete 
+}
+
+
 model Session {
-  id        String   @id
+  id        String   @id @default(uuid())
   userId    Int
-  role      Role
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
   expiresAt DateTime
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -32,13 +44,12 @@ model Session {
 
 model User {
   id            Int            @id @default(autoincrement())
-  role          String
+  role          Role           @default(USER)
   name          String
   email         String         @unique
-  dateCreated   DateTime
+  createdAt     DateTime       @default(now())
   surveyResults SurveyResult[] // Might remove this as it may not be necessary
   sessions      Session[]
-
   oauthAccounts OAuthAccount[]
 }
 
@@ -57,36 +68,36 @@ model OAuthAccount {
 model Survey {
   id            Int            @id @default(autoincrement())
   title         String
-  lastModified  DateTime       @default(now())
+  description   String         @default("")  
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
+  categories    Json           @default("[]")
   questions     Question[]
   surveyResults SurveyResult[]
 }
 
 model Question {
   id             Int      @id @default(autoincrement())
-  type           String // 'MCQ' 'Scale' 'Open'
+  type           QuestionType // 'MCQ' 'Scale' 'Open'
   questionString String
-  choices        Choice[]
   category       String
-  weight         Float
+  minValue      Float?   // Only used for Scalar
+  maxValue      Float?   // Only used for Scalar
   surveyId       Int
-  survey         Survey   @relation(fields: [surveyId], references: [id])
+  survey         Survey   @relation(fields: [surveyId], references: [id], onDelete: Cascade) // Unsure if it should cascade or not, ask Project Partner
+  optionsMap     Json?    // For MCQ => structured JSON (A, B, C...)
 }
 
-model Choice {
-  id           Int      @id @default(autoincrement())
-  choiceString String
-  questionId   Int
-  question     Question @relation(fields: [questionId], references: [id])
-}
 
 model SurveyResult {
   id           Int      @id @default(autoincrement())
   answersData  Json // Stores answers as JSON (question -> answer mapping)
   userId       Int
   surveyId     Int
-  lastModified DateTime
-  status       String // 'OnGoing' or 'Complete'
-  user         User     @relation(fields: [userId], references: [id])
-  survey       Survey   @relation(fields: [surveyId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  status       SurveyStatus // 'OnGoing' or 'Complete'
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade) // Unsure if it should cascade or not, ask Project Partner
+  survey       Survey   @relation(fields: [surveyId], references: [id], onDelete: Cascade) // Unsure if it should cascade or not, ask Project Partner
+  @@unique([userId, surveyId])
 }
