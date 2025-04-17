@@ -1,29 +1,34 @@
 import Image from "next/image";
-import home_pic from "../../public/home_pic.jpg"
+import studen from "../../public/student.jpeg"
 
 export default function Intro() {
-    return (
-        <main className="flex justify-between mt-20 pt-10 px-8">
-
-            <div className="w-1/2 p-5">
-                <h1 className="text-6xl font-extrabold text-customGray">Goatiendas</h1>
-                <p className= "text-2xl text-customGray mt-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
-                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </div>
-
-            <div className="flex justify-end p-5">
-                <Image 
-                    src={home_pic} 
-                    width={500} 
-                    height={500}
-                    alt="Home Image" 
-                    className="rounded-full object-cover"
-                />
-            </div>
-        </main>
-    );
+  return (
+    <main className="flex justify-center items-center mt-16 pt-10 px-8">
+      <div className="w-1/2 p-5">
+        <h1 className="text-4xl font-extrabold text-text">La Tiendita Career Aptitude Survey</h1>
+        <div>
+          <p className="text-2xl font-semibold text-text mt-4">
+            Empowering Diverse Talent for a Better Tomorrow
+          </p>
+          <p className="text-2xl text-text mt-4">
+            Our job aptitude test is designed to celebrate the unique experiences and strengths of the La Tiendita community, helping you unlock your full potential in the workplace.
+          </p>
+        </div>
+        <div className="mt-8 flex justify-center">
+          <button className="text-2xl font-semibold bg-accent rounded-xl px-4 py-1 my-1">
+            Try our surveys!
+          </button>
+        </div>
+      </div>
+      <div className="flex justify-end p-5">
+        <Image
+          src={studen}
+          width={550}
+          height={550}
+          alt="Home Image"
+          className="rounded-full object-cover"
+        />
+      </div>
+    </main>
+  );
 }

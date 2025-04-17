@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+
+// tailwind.config.js
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,16 +11,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        customGray: "#393e46",
+        text: "#393e46", // Dark Gray for text
+        background: "#ededed", // Light Gray background
+        primary: "#abd8d3", // Soft Cyan
+        secondary: "#126e82", // Deep Teal
+        accent: "#00aab3", // Bright Teal
       },
       fontFamily: {
-        sans: ['Roboto', 'Arial', 'sans-serif'],
-        heading: ['Open Sans', 'Arial', 'sans-serif'],
-        bytesized: ['Bytesized', 'sans-serif'],
+        vithkuqi: ["Noto Serif Vithkuqi", "serif"],
       },
-      
     },
   },
   plugins: [],
