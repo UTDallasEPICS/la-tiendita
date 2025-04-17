@@ -45,12 +45,13 @@ export default function Intro() {
     const canvas = document.getElementById(
       "myPolarChart"
     ) as HTMLCanvasElement | null;
+    let myChart: Chart | null = null;
 
     if (canvas) {
       const ctx = canvas.getContext("2d");
 
       if (ctx) {
-        new Chart(ctx, {
+        myChart = new Chart(ctx, {
           type: "polarArea",
           data: {
             labels,
@@ -92,6 +93,12 @@ export default function Intro() {
     } else {
       console.error("Canvas element not found");
     }
+
+    return () => {
+      if (myChart) {
+        myChart.destroy();
+      }
+    };
   }, []);
 
   return (

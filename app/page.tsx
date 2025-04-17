@@ -1,11 +1,11 @@
-import Intro from "./home/Intro";
-import Surveys from "./home/surveys/Surveys";
+import Intro from "./home/page";
+import Surveys from "./home/Surveys/Surveys";
 
 export default function Landing() {
-    return (
-        <section>
-            <Intro/>
-            <Surveys/>
-        </section>
-    );
+  return (
+    <section>
+      <Intro />
+      <Surveys />
+    </section>
+  );
 }
