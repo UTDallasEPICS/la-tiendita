@@ -25,7 +25,7 @@ export default function Tests(props: TestProps) {
         <h1 className="text-xl font-semibold text-customGray">
           {props.assessment}
         </h1>
-        <h2 className="text-lg text-customGray">{props.description}</h2>
+        <h2 className="text-lg text-black">{props.description}</h2>
       </div>
     </a>
   );
