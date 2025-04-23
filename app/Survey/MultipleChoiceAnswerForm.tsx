@@ -1,20 +1,24 @@
+import Question from "./Interface/Question";
+
 interface MultipleChoiceAnswerFormProps {
-    answerChoices?: string[];
+    question: Question;
 }
 
 export default function MultipleChoiceAnswerForm(props: MultipleChoiceAnswerFormProps) {
-    if((props.answerChoices?.length ?? 0) == 0) { return <></>; }
-    
-    let answerChoiceInputs = props.answerChoices?.map(answerChoice =>
-        <div key={answerChoice} className="space-x-2">
-            <input type="radio" id={answerChoice.toLowerCase().replaceAll(" ", "-")} name="multiple-choice" value={answerChoice} />
-            <label htmlFor={answerChoice.toLowerCase().replaceAll(" ", "-")}>{answerChoice}</label><br />
-        </div>
-    );
-    
+    const optionsMap = props.question.optionsMap ? JSON.parse(JSON.stringify(props.question.optionsMap)) : {};
+    const keys = Object.keys(optionsMap);
+
     return (
-        <form className="">
-            {answerChoiceInputs}
+        <form>
+            {keys.map((key) => {
+                const inputId = `q${props.question.id}-choice-${key}`;
+                return (
+                    <div key={inputId} className="space-x-2">
+                        <input type="radio" id={inputId} name={`q${props.question.id}`} value={key} />
+                        <label htmlFor={inputId}>{optionsMap[key]}</label><br />
+                    </div>
+                );
+            })}
         </form>
     );
 }

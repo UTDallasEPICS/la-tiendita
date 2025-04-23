@@ -1,15 +1,14 @@
-import Choice from "./Choice";
-import Survey from "./Survey";
+import QuestionType from "./Enum/QuestionType";
 
 interface Question {
     id: number;
-    type: string; // 'MCQ' 'Scale' 'Open'
+    type: QuestionType;
     questionString: string;
-    choices: Choice[];
     category: string;
-    weight: number;
+    minValue?: number;
+    maxValue?: number;
     surveyId: number;
-    survey: Survey;
-}
+    optionsMap?: JSON;
+  }
 
 export default Question;

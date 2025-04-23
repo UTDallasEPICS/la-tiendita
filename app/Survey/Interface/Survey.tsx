@@ -1,12 +1,11 @@
-import { DateTime } from "next-auth/providers/kakao";
 import Question from "./Question";
 
 interface Survey {
     id: number;
     title: string;
-    lastModified: DateTime;
+    description: string;
+    categories: JSON;
     questions: Question[];
-    surveyResults: SurveyResult[];
 }
 
 export default Survey;
