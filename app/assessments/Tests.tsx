@@ -11,7 +11,7 @@ export default function Tests(props: TestProps) {
   return (
     <a
       href={props.link}
-      className="flex items-center space-x-6 p-6 border-2 border-blue-500 rounded-lg mb-6 transition duration-300 transform hover:-translate-y-1 max-h-[250px] overflow-hidden hover:bg-blue-100"
+      className="flex items-center space-x-6 p-6 border-2 border-cyan-600 rounded-lg mb-6 transition duration-300 transform hover:-translate-y-1 max-h-[250px] overflow-hidden hover:bg-cyan-100"
     >
       <Image
         src={props.image}
