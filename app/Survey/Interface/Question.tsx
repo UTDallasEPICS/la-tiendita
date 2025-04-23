@@ -9,7 +9,7 @@ interface Question {
     category: string;
     weight: number;
     surveyId: number;
-    survey: Survey;
+    // survey: Survey; // currently don't think it's necessary
 }
 
 export default Question;

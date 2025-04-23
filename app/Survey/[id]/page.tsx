@@ -1,92 +1,111 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import Question from '../Interface/Question';
 import Module from "../Module";
-import { DateTime } from "next-auth/providers/kakao";
+// import { DateTime } from "next-auth/providers/kakao";
 import { JsonObject } from "@prisma/client/runtime/library";
 
-interface Survey {
-  id: number;
-  title: string;
-  lastModified: DateTime;
-  questions: Question[];
-  surveyResults: SurveyResult[];
-}
+// currently commenting out to check things
 
-interface Question {
-  id: number;
-  type: string;
-  questionString: string;
-  choices: Choice[];
-  category: string;
-  weight: number;
-  surveyId: number;
-  survey: Survey;
-}
+// interface Survey {
+//   id: number;
+//   title: string;
+//   lastModified: DateTime;
+//   questions: Question[];
+//   surveyResults: SurveyResult[];
+// }
 
-interface Choice {
-  id: number;
-  choiceString: string;
-  questionId: number;
-  question: Question;
-}
+// interface Question {
+//   id: number;
+//   type: string;
+//   questionString: string;
+//   choices: Choice[];
+//   category: string;
+//   weight: number;
+//   surveyId: number;
+//   survey: Survey;
+// }
 
-interface SurveyResult {
-  id: number;
-  answersData: JsonObject;
-  userId: number;
-  surveyId: number;
-  lastModified: DateTime;
-  status: string;
-  user: User;
-  survey: Survey; 
-}
+// interface Choice {
+//   id: number;
+//   choiceString: string;
+//   questionId: number;
+//   question: Question;
+// }
 
-interface User {
-  id: number;
-  role: string;
-  name: string;
-  email: string;
-  dateCreated: DateTime;
-  surveyResults: SurveyResult[];
-}
+// interface SurveyResult {
+//   id: number;
+//   answersData: JsonObject;
+//   userId: number;
+//   surveyId: number;
+//   lastModified: DateTime;
+//   status: string;
+//   user: User;
+//   survey: Survey; 
+// }
+
+// interface User {
+//   id: number;
+//   role: string;
+//   name: string;
+//   email: string;
+//   dateCreated: DateTime;
+//   surveyResults: SurveyResult[];
+// }
 
 export default function Survey() {
   const params = useParams();
   const { id } = params;
+  // dynamic questions
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => 
+  {
+    const fetchQuestions = async () => {
+      try {
+        // fetch
+        const res = await fetch(`/api/surveys/${id}/survey`);
+
+        //throw
+        if (!res.ok) throw new Error("Failed to fetch questions");
+
+        // setting data
+        const data = await res.json();
+        setQuestions(data);
+        
+      } catch (err: any) {
+        setError(err.message || "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchQuestions();
+  }, [id]);
+
+  // const question: Question = {
+  //   id: 1,
+  //   type: "scale",
+  //   questionString: "Do androids dream of electric sheep?",
+  //   choices: [], // you can populate this if needed
+  //   category: "philosophy",
+  //   weight: 1,
+  //   surveyId: 42
+  // };
+  
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
   
   return (
     <section className="mt-20 p-5 max-w-5xl mx-auto">
       <div className="flex flex-col justify-center">
-        <Module type="scale"
-          question="Do androids dream of electric sheep?"
-          minLabel="Strongly Disagree"
-          maxLabel="Strongly Agree"
-          numChoices={5}
-        />
-
-        <Module type="mcq"
-          question="Do androids dream of electric sheep?"
-          answerChoices={[
-            "Yes",
-            "Probably",
-            "Unsure",
-            "Probably not",
-            "No"
-          ]}
-        />
-
-        <Module type="open"
-          question="Do androids dream of electric sheep?"
-        />
-
-        <Module type="scale"
-          question="Do androids dream of electric sheep?"
-        />
-
-        <Module type="mcq"
-          question="Do androids dream of electric sheep?"
-        />
+        {questions.map((q) => 
+        (
+          <Module key={q.id} question={q} />
+        ))}
       </div>
     </section>
   );

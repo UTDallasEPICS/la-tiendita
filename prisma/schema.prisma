@@ -21,9 +21,9 @@ enum Role {
 }
 
 enum QuestionType  {
-   SCALAR
-   MULTIPLE_CHOICE  
-   FREE_RESPONSE 
+   Scale
+   MCQ
+   Open 
 }
 
 enum SurveyStatus { 
@@ -62,18 +62,6 @@ model OAuthAccount {
   
   // Ensure that each user can only link a unique provider account ID
   @@unique([provider, providerAccountId])
-}
-
-model User {
-  id            Int            @id @default(autoincrement())
-  role          String
-  name          String
-  email         String         @unique
-  dateCreated   DateTime
-  surveyResults SurveyResult[] // Might remove this as it may not be necessary
-  sessions      Session[]
-
-  oauthAccounts OAuthAccount[]
 }
 
 model Survey {
