@@ -59,3 +59,37 @@ export async function GET(request: NextRequest) {
   }
 }
 
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+
+    const { id, name, email, role } = body;
+
+    if (!id) {
+      return NextResponse.json(
+        { message: "User ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // Create an update object dynamically
+    const dataToUpdate: any = {};
+    if (name !== undefined) dataToUpdate.name = name;
+    if (email !== undefined) dataToUpdate.email = email;
+    if (role !== undefined) dataToUpdate.role = role;
+
+    // Update the user
+    const updatedUser = await prisma.user.update({
+      where: { id: id },
+      data: dataToUpdate,
+    });
+
+    return NextResponse.json(updatedUser, { status: 200 });
+  } catch (error: any) {
+    const message = "Failed to update user";
+    return NextResponse.json(
+      { message: message, error: error.message },
+      { status: 500 }
+    );
+  }
+}
