@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 import Link from "next/link";
-import logo3 from "../../public/logo3.jpeg";
+import logo3 from "../../public/logo3.new.jpg";
 
 export default function Navbar() {
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function Navbar() {
         <button className="flex-shrink-0" onClick={() => router.push("/home")}>
           <Image
             src={logo3}
-            className="h-14 w-auto rounded-full object-cover"
+            className="h-14 w-auto rounded-full object-cover object-center"
             alt="logo"
           />
         </button>

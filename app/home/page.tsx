@@ -2,6 +2,7 @@ import Image from "next/image";
 import student from "../../public/student.jpeg";
 
 export default function Intro() {
+
   return (
     <main className="flex justify-center items-center mt-16 pt-12 px-8">
       <div className="w-1/2 p-5">
@@ -19,9 +20,11 @@ export default function Intro() {
           </p>
         </div>
         <div className="mt-8 flex justify-center">
-          <button className="text-2xl font-semibold bg-accent rounded-xl px-4 py-1 my-1">
+          <a
+            href="/assessments"
+            className="text-2xl font-semibold bg-accent rounded-xl px-4 py-1 my-1">
             Try our surveys!
-          </button>
+          </a>
         </div>
       </div>
       <div className="flex justify-end p-5">
