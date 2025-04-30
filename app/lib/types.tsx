@@ -1,8 +1,8 @@
 export type QuestionType = "SCALAR" | "MULTIPLE_CHOICE" | "FREE_RESPONSE";
 
 export interface BaseQuestion {
-  // id: number;
-  // surveyID: number;
+  id?: number;
+  surveyId?: number;
   category: string;
   questionString: string;
   type: QuestionType;
@@ -32,10 +32,13 @@ export interface FRQQuestion extends BaseQuestion {
 export type Question = ScalarQuestion | MCQQuestion | FRQQuestion;
 
 export interface Survey {
+  id?: number;
   title: string;
   description: string;
   categories: string[];
   questions: Question[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Answer {
@@ -48,4 +51,20 @@ export interface SurveyResult {
   userId: number;
   surveyId: number;
   status: "OnGoing" | "Complete";
+}
+
+export interface AnswerData {
+  question: Question;
+  answer: string | number;
+}
+
+export interface SurveyResults {
+  id: number;
+  answersData: Answer[];
+  userId: number;
+  surveyId: number;
+  createdAt: string;
+  updatedAt: string;
+  status: string;
+  survey: Survey;
 }
