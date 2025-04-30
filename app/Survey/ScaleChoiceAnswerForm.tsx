@@ -1,29 +1,27 @@
-import Question from "./Interface/Question";
-
 interface ScaleChoiceAnswerFormProps {
-    question: Question;
+    minLabel?: string
+    maxLabel?: string
+    numChoices?: number
 }
 
 export default function ScaleChoiceAnswerForm(props: ScaleChoiceAnswerFormProps) {
-    const min = props.question.minValue ?? 1;
-    const max = props.question.maxValue ?? 5;
-    const inputName = `q${props.question.id}`;
+    let numChoices = props.numChoices ?? 0;
+
+    if(numChoices == 0) { return <></>; }
+
+    let minLabel = props.minLabel;
+    let maxLabel = props.maxLabel;
     
     let answerChoiceInputs = [];
-    for (let i = min; i <= max; i++) {
-        const inputId = `q${props.question.id}-scale-${i}`;
-        answerChoiceInputs.push(
-            <div key={inputId}>
-                <input type="radio" id={inputId} name={inputName} value={i} />
-            </div>
-        );
+    for(let i = 1; i <= numChoices; i++) {
+        answerChoiceInputs.push(<input key={i} type="radio" id={i.toString()} name="scale-choice" value={i.toString()} />);
     }
     
     return (
         <form className="flex flex-row w-full space-x-5">
-            <label htmlFor={answerChoiceInputs[0].props.id}>{min}</label>
+            <label htmlFor={answerChoiceInputs[0].props.id}>{minLabel}</label>
             {answerChoiceInputs}
-            <label htmlFor={answerChoiceInputs[max - min].props.id}>{max}</label>
+            <label htmlFor={answerChoiceInputs[numChoices - 1].props.id}>{maxLabel}</label>
         </form>
     );
 }

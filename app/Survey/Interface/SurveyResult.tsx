@@ -1,11 +1,15 @@
-import SurveyStatus from "./Enum/SurveyStatus";
+import { DateTime } from "next-auth/providers/kakao";
+import Survey from "./Survey";
 
 interface SurveyResult {
     id: number;
-    answersData: JSON;
+    answersData: Json; // Stores answers as JSON (question -> answer mapping)
     userId: number;
     surveyId: number;
-    status: SurveyStatus;
+    lastModified: DateTime;
+    status: string // 'OnGoing' or 'Complete'
+    user: User;
+    survey: Survey;
 }
 
 export default SurveyResult;
