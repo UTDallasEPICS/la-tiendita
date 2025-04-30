@@ -7,10 +7,10 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { Chart, ArcElement, RadialLinearScale, PolarAreaController, Tooltip, Legend } from 'chart.js';
+import { Chart, ArcElement, PieController, Tooltip, Legend, CategoryScale } from 'chart.js';
 
 // Register the Chart.js components
-Chart.register(ArcElement, RadialLinearScale, PolarAreaController, Tooltip, Legend);
+Chart.register(ArcElement, PieController, CategoryScale, Tooltip, Legend);
 
 // The value numbers should change once we have results
 const rawData = [
@@ -29,14 +29,14 @@ const descriptions = sortedData.map((item) => item.description);
 
 export default function Intro() {
   useEffect(() => {
-    const canvas = document.getElementById('myPolarChart') as HTMLCanvasElement | null;
+    const canvas = document.getElementById('PieChart') as HTMLCanvasElement | null;
 
     if (canvas) {
       const ctx = canvas.getContext("2d");
 
       if (ctx) {
         new Chart(ctx, {
-          type: 'polarArea',
+          type: 'pie',
           data: {
             labels,
             datasets: [
@@ -78,11 +78,7 @@ export default function Intro() {
       console.error("Canvas element not found");
     }
 
-    return () => {
-      if (myChart) {
-        myChart.destroy();
-      }
-    };
+    
   }, []);
 
   return (
