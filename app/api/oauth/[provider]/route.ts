@@ -107,7 +107,7 @@ async function connectUserToAccount(
           email: email,
           name: name,
           role: "USER", // default role is user
-          dateCreated: new Date(),
+          createdAt: new Date(),
         },
       });
       user = newUser;
