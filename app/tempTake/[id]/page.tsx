@@ -4,7 +4,8 @@ import SurveyTaker from "./survey-taker";
 import { Survey } from "../../lib/types";
 import { useParams } from "next/navigation";
 import NotFound from "../../components/not-found";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import Loading from "../../components/loading";
 // Mock survey data for demonstration
 // const mockSurvey: Survey = {
 //   title: "Personality Assessment",
@@ -196,15 +197,9 @@ export default function tempTake() {
     }
   }, [id]);
 
-  // if (loading) {
-  //   return (
-  //     <main className="min-h-[89vh] bg-gray-50 py-8">
-  //       <div className="max-w-4xl mx-auto px-4 pt-12">
-  //         <div>Loading...</div>
-  //       </div>
-  //     </main>
-  //   );
-  // }
+  if (loading) {
+    return <Loading />;
+  }
 
   // if (error) {
   //   return (
