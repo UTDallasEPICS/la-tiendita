@@ -5,10 +5,12 @@ import ScalarQuestion from "./question-types/scalar-question";
 import MultipleChoiceQuestion from "./question-types/multuple-choice-question";
 import FreeResponseQuestion from "./question-types/free-response-question";
 import ProgressBar from "./progressbar";
+import { useParams } from "next/navigation";
 import {
   ScalarQuestion as ScalarQuestionType,
   MCQQuestion as MultupleChoiceQuestionType,
 } from "../../lib/types";
+import axios from "axios";
 interface SurveyTakerProps {
   survey: Survey;
   questionsPerPage: number;
@@ -18,6 +20,7 @@ const SurveyTaker: React.FC<SurveyTakerProps> = ({
   survey,
   questionsPerPage,
 }) => {
+  const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,7 +36,7 @@ const SurveyTaker: React.FC<SurveyTakerProps> = ({
 
   const handleAnswer = (question: Question, answer: string | number) => {
     setAnswers((prev) => {
-      // Check if this question has already been answered
+      // checking if this question has already been answered
       const existingIndex = prev.findIndex(
         (a) =>
           a.question.questionString === question.questionString &&
@@ -41,12 +44,12 @@ const SurveyTaker: React.FC<SurveyTakerProps> = ({
       );
 
       if (existingIndex >= 0) {
-        // Update existing answer
+        // updating... existing answer
         const newAnswers = [...prev];
         newAnswers[existingIndex] = { question, answer };
         return newAnswers;
       } else {
-        // Add new answer
+        // adding new answer
         return [...prev, { question, answer }];
       }
     });
@@ -96,27 +99,33 @@ const SurveyTaker: React.FC<SurveyTakerProps> = ({
       alert("Please answer all questions before submitting.");
       return;
     }
-
     setIsSubmitting(true);
 
     try {
-      // Prepare the data to send to the backend
       const surveyResult = {
         answersData: answers,
-        userId: 1, // This would normally come from authentication
+        userId: 1, // I need to replace this with the get current user id function.
         status: "Complete" as const,
       };
 
-      // Mock API call - in a real app, you would send this to your backend
       console.log("Submitting survey result:", surveyResult);
-
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await axios.post(
+        `http://localhost:3000/api/surveys/${id}/survey_results`,
+        surveyResult,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Saved survey result:", response);
 
       setIsComplete(true);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting survey:", error);
-      alert("There was an error submitting your survey. Please try again.");
+      const message =
+        error.response?.data?.error || error.message || "Unknown error";
+      alert(`Submission failed: ${message}`);
     } finally {
       setIsSubmitting(false);
     }
