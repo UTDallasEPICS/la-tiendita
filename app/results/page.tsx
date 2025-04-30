@@ -8,17 +8,17 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { Chart, ArcElement, RadialLinearScale, PolarAreaController, Tooltip, Legend } from 'chart.js';
+import { Chart, ArcElement, PieController, Tooltip, Legend, CategoryScale } from 'chart.js';
 
 // Register the Chart.js components
-Chart.register(ArcElement, RadialLinearScale, PolarAreaController, Tooltip, Legend);
+Chart.register(ArcElement, PieController, CategoryScale, Tooltip, Legend);
 
 // The value numbers should change once we have results 
 const rawData = [
   { label: 'career1', value: 11, description: 'Career 1 description' },
   { label: 'career2', value: 16, description: 'Career 2 description' },
   { label: 'career3', value: 7, description: 'Career 3 description' },
-  { label: 'career4', value: 4, description: 'Career 4 description' },
+  { label: 'career4', value: 10, description: 'Career 4 description' },
   { label: 'career5', value: 14, description: 'Career 5 description' },
 ];
 
@@ -30,14 +30,14 @@ const descriptions = sortedData.map((item) => item.description);
 
 export default function Intro() {
   useEffect(() => {
-    const canvas = document.getElementById('myPolarChart') as HTMLCanvasElement | null;
+    const canvas = document.getElementById('PieChart') as HTMLCanvasElement | null;
 
     if (canvas) {
       const ctx = canvas.getContext('2d');
 
       if (ctx) {
         new Chart(ctx, {
-          type: 'polarArea',
+          type: 'pie',
           data: {
             labels,
             datasets: [{
@@ -53,11 +53,7 @@ export default function Intro() {
             }],
           },
           options: {
-            scales: {
-              r: {
-                beginAtZero: true,
-              },
-            },
+
             plugins: {
               tooltip: {
                 callbacks: {
@@ -67,6 +63,10 @@ export default function Intro() {
                   },
                 },
               },
+              legend:{
+                display:true,
+                position: 'bottom',
+              }
             },
           },
         });
@@ -97,9 +97,9 @@ export default function Intro() {
         </ul>
       </div>
 
-      {/* Right: Chart */}
+      {/* Right: piechart */}
       <div className="flex justify-end p-5">
-        <canvas id="myPolarChart" width="400" height="400"></canvas>
+        <canvas id="PieChart" width="400" height="400"></canvas>
       </div>
     </main>
   );
