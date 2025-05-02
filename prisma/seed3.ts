@@ -42,7 +42,7 @@ async function main() {
     data: {
       title: 'Customer Feedback Survey',
       description: 'We value your feedback. Please answer the following questions.',
-      categories: JSON.stringify(['Feedback', 'Product']),
+      categories: ['Feedback', 'Product'],
     },
   });
 
@@ -63,7 +63,7 @@ async function main() {
       type: QuestionType.MULTIPLE_CHOICE,
       questionString: 'Which features do you use the most?',
       category: 'Product',
-      optionsMap: JSON.stringify({ A: 'Feature 1', B: 'Feature 2', C: 'Feature 3' }),
+      optionsMap: { A: 'Feature 1', B: 'Feature 2', C: 'Feature 3' },
       surveyId: survey.id,
     },
   });
@@ -80,11 +80,11 @@ async function main() {
   // Create a Survey Result for User1
   const surveyResult1 = await prisma.surveyResult.create({
     data: {
-      answersData: JSON.stringify({
+      answersData: {
         [question1.id]: 4,
         [question2.id]: 'A',
         [question3.id]: 'More features!',
-      }),
+      },
       userId: user1.id,
       surveyId: survey.id,
       status: SurveyStatus.Complete,
@@ -94,11 +94,11 @@ async function main() {
   // Create a Survey Result for User2 (Admin)
   const surveyResult2 = await prisma.surveyResult.create({
     data: {
-      answersData: JSON.stringify({
+      answersData: {
         [question1.id]: 3,
         [question2.id]: 'B',
         [question3.id]: 'Better customer support.',
-      }),
+      },
       userId: user2.id,
       surveyId: survey.id,
       status: SurveyStatus.Complete,

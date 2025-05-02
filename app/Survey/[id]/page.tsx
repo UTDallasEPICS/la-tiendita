@@ -56,7 +56,7 @@ export default function Survey() {
   const { id } = params;
   
   return (
-    <section className="mt-20 p-5 max-w-5xl mx-auto">
+    <section className="mt-20 p-5 max-w-5xl mx-auto text-text">
       <div className="flex flex-col justify-center">
         <Module type="scale"
           question="Do androids dream of electric sheep?"

@@ -8,28 +8,22 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const queriedUserId: string = (await params).id;
+  const queriedUserId: number = Number((await params).id);
+  if (isNaN(queriedUserId)) 
+    return NextResponse.json({ error: "Invalid user ID" }, { status: 400 })
+
   try {
     // Query the surveys taken by userID 
     const surveys = await prisma.survey.findMany({
       where: {
         // At least 1 survey result belonging to the user
-        surveyResults: { some: { userId: Number(queriedUserId) } }
+        surveyResults: { some: { userId: queriedUserId } }
       },
-      include: {
-        // Show questions with available choices of the survey here
-        questions: {
-          include: { choices: true }
-        }
-      }
+      include: { questions: true }
     })
     return NextResponse.json(surveys, { status: 200 })
   }
   catch (error: any) {
-    const message: string = `Failed to get surveys taken by ${queriedUserId}`;
-    return NextResponse.json(
-      { message: message, error: error.message },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

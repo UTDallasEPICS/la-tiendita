@@ -20,17 +20,16 @@ enum Role {
   USER
 }
 
-enum QuestionType  {
-   SCALAR
-   MULTIPLE_CHOICE  
-   FREE_RESPONSE 
+enum QuestionType {
+  SCALAR
+  MULTIPLE_CHOICE  
+  FREE_RESPONSE 
 }
 
 enum SurveyStatus { 
   OnGoing 
   Complete 
 }
-
 
 model Session {
   id        String   @id @default(uuid())
@@ -78,7 +77,7 @@ model Survey {
 
 model Question {
   id             Int      @id @default(autoincrement())
-  type           QuestionType // 'MCQ' 'Scale' 'Open'
+  type           QuestionType // 'SCALAR' 'MULTIPLE_CHOICE' 'FREE_RESPONSE'
   questionString String
   category       String
   minValue      Float?   // Only used for Scalar

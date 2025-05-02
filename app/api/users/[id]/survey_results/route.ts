@@ -8,21 +8,19 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const queriedUserId: string = (await params).id;
+  const queriedUserId: number = Number((await params).id);
+  if (isNaN(queriedUserId)) 
+    return NextResponse.json({ error: "Invalid user ID" }, { status: 400 })
 
   try {
     // Query the survey results with queried user ID
     const surveyResults = await prisma.surveyResult.findMany({
-      where: { userId: Number(queriedUserId) },
+      where: { userId: queriedUserId },
     })
 
     return NextResponse.json(surveyResults, { status: 200 })
   }
   catch (error: any) {
-    const message: string = `Failed to get results taken by ${queriedUserId}`
-    return NextResponse.json(
-      { message: message, error: error.message },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

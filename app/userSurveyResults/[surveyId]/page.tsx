@@ -30,12 +30,14 @@ export default function UserSurveyResults() {
       setErrorCode(null);
       setMessage(null);
       setLoading(false);
-    } catch (error: any) {
+    } 
+    catch (error: any) {
       console.log(error);
       setErrorCode(error.status);
       setError(error.message);
       setMessage(error.message);
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
   };

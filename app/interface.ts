@@ -1,40 +1,42 @@
+import { Role, QuestionType, SurveyStatus } from "@prisma/client";
+
 export interface User {
   id: number;
-  role: string;
+  role: Role;
   name: string;
   email: string;
-  dateCreated: Date;
+  phoneNumber: string | undefined; 
+  createdAt: Date;
 }
 
 export interface Survey {
   id: number;
   title: string;
-  lastModified: Date;
+  description: string; 
+  createdAt: Date; 
+  updatedAt: Date; 
+  categories: string[]; 
   questions: Question[];
   surveyResults: SurveyResult[];
 }
 
 export interface Question {
   id: number;
-  type: string; // Could also use a union type like 'MCQ' | 'Scale' | 'Open'
+  type: QuestionType; 
   questionString: string;
-  choices: Choice[];
   category: string;
-  weight: number;
+  minValue: number; 
+  maxValue: number; 
   surveyId: number;
-}
-
-export interface Choice {
-  id: number;
-  choiceString: string;
-  questionId: number;
+  optionsMap: Record<string, string>; // Used for MCQ
 }
 
 export interface SurveyResult {
   id: number;
-  answersData: Record<string, any>; // Replace `any` with a more specific type if you know the structure
+  answersData: Record<string, any> | undefined; // Replace `any` with a more specific type if you know the structure
   userId: number;
   surveyId: number;
-  lastModified: Date;
-  status: string; // Could also be 'OnGoing' | 'Complete'
+  createdAt: Date; 
+  updatedAt: Date; 
+  status: SurveyStatus;
 }

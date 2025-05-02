@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { Survey } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -9,29 +10,34 @@ type Option = {
   weight?: number;
 };
 
+/**
+ * 
+ * @returns 
+ */
 export async function GET() {
-  const surveys = await prisma.survey.findMany({
-    include: { questions: true },
-  });
-  return NextResponse.json(surveys);
+  try {
+    // When getting the list of surveys, no need to get the question right away
+    const surveys: Survey[] = await prisma.survey.findMany();
+    return NextResponse.json(surveys, { status: 200 });
+  }
+  catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
 }
 
-export async function POST(req: NextRequest) {
-  const body = await req.json();
+/**
+ * 
+ * @param request 
+ * @returns 
+ */
+export async function POST(request: NextRequest) {
+  const body = await request.json();
   const { title, description, categories, questions } = body;
 
-  if (!title) {
-    return NextResponse.json({ error: "Invalid Title" }, { status: 400 });
-  }
+  if (!title) return NextResponse.json({ error: "Invalid Title" }, { status: 400 });
+  if (!description) return NextResponse.json({ error: "Invalid Description" }, { status: 400 });
 
-  if (!description) {
-    return NextResponse.json({ error: "Invalid Description" }, { status: 400 });
-  }
-
-  if (
-    !Array.isArray(categories) ||
-    categories.some((c) => typeof c !== "string")
-  ) {
+  if (!Array.isArray(categories) || categories.some((c) => typeof c !== "string")) {
     return NextResponse.json(
       { error: "Invalid categories format" },
       { status: 400 }
@@ -41,9 +47,7 @@ export async function POST(req: NextRequest) {
   for (const question of questions) {
     if (!categories.includes(question.category)) {
       return NextResponse.json(
-        {
-          error: `Question category "${question.category}" not in categories list`,
-        },
+        { error: `Question category "${question.category}" not in categories list` },
         { status: 400 }
       );
     }
@@ -61,27 +65,19 @@ export async function POST(req: NextRequest) {
             typeof opt.category !== "string"
           ) {
             return NextResponse.json(
-              {
-                error: `Invalid option format at key "${key}"`,
-              },
+              { error: `Invalid option format at key "${key}"` },
               { status: 400 }
             );
           }
 
           if (!categories.includes(opt.category)) {
             return NextResponse.json(
-              {
-                error: `Option category "${opt.category}" in key "${key}" not in categories list`,
-              },
-              { status: 400 }
-            );
+              { error: `Option category "${opt.category}" in key "${key}" not in categories list` }, 
+              { status: 400 });
           }
         }
       } catch {
-        return NextResponse.json(
-          { error: "Malformed optionsMap" },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "Malformed optionsMap" }, { status: 400 });
       }
     }
   }
@@ -100,11 +96,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(newSurvey, { status: 201 });
-  } catch (err) {
+  } 
+  catch (err) {
     console.error("Survey creation error:", err);
-    return NextResponse.json(
-      { error: "Failed to create survey" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to create survey" }, { status: 500 });
   }
 }

@@ -9,7 +9,7 @@ export default function Navbar() {
   const router = useRouter();
 
   return (
-    <nav className="bg-secondary text-white py-2 shadow-lg fixed top-0 left-0 w-full z-50">
+    <nav className="bg-primary text-white py-2 shadow-lg fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto px-8 flex justify-between items-center">
         <button className="flex-shrink-0" onClick={() => router.push("/home")}>
           <Image

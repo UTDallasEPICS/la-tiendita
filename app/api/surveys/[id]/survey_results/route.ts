@@ -1,4 +1,4 @@
-import { PrismaClient, SurveyStatus, QuestionType } from "@prisma/client";
+import { PrismaClient, SurveyResult, SurveyStatus, QuestionType } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 const prisma = new PrismaClient();
@@ -45,25 +45,26 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const queriedSurveyId = (await params).id;
+  const surveyId = Number((await params).id)
+
+  // Invalid survey ID
+  if (isNaN(surveyId)) 
+    return NextResponse.json({ error: "Invalid survey ID" }, { status: 400 })
 
   try {
-    // Query the survey results of the given survey id
+    // Query the survey results of the given surveys 
     const surveyResults = await prisma.surveyResult.findMany({
-      where: { surveyId: Number(queriedSurveyId) },
-      include: {survey : true}
+      where: { surveyId: Number(surveyId) },
+      include: { survey: true }
     })
 
     return NextResponse.json(surveyResults, { status: 200 })
   }
   catch (error: any) {
-    const message: string = `Failed to get survey results of ${queriedSurveyId}`;
-    return NextResponse.json(
-      { message: message, error: error.message },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
+
 
 export async function POST(
   req: NextRequest,

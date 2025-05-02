@@ -55,6 +55,10 @@ export default function Page() {
     return <Loading />;
   }
 
+  /* 
+    NOTE: THIS COMPONENT IS BUILD BASED ON THE PREMISE THAT THE USER 
+    ONLY HAS AT MOST ONE SURVEY RESULTS FOR EACH SURVEY
+   */
   return (
     <div className="mb-10 text-text">
       <h1 className="mt-20 text-2xl font-bold text-center">Survey Results</h1>
