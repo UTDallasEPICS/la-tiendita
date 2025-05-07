@@ -1,13 +1,20 @@
 "use client";
 import { useRouter } from "next/navigation";
-
 import Image from "next/image";
 import Link from "next/link";
 import logo3 from "../../public/logo3.jpeg";
 
-export default function Navbar() {
+type User = {
+  id: number;
+  email: string;
+  role: "USER" | "ADMIN";
+  name?: string;
+};
+
+export default function Navbar({ user }: { user: User | null }) {
   const router = useRouter();
-  const userId = 1;
+  const userId = user?.id;
+
   return (
     <nav className="bg-primary text-white py-2 shadow-lg fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto px-8 flex justify-between items-center">
@@ -32,7 +39,7 @@ export default function Navbar() {
             Surveys
           </Link>
           <Link
-            href={`/results/${userId}`}
+            href={`/results/${userId ?? ""}`}
             className="hover:text-gray-300 transition duration-300 py-1"
           >
             Results
@@ -43,12 +50,22 @@ export default function Navbar() {
           >
             Profile
           </Link>
-          <button
-            onClick={() => router.push("/login")}
-            className="text-xl font-semibold bg-accent rounded-xl py-1 px-4"
-          >
-            Log in
-          </button>
+
+          {!user ? (
+            <button
+              onClick={() => router.push("/login")}
+              className="text-xl font-semibold bg-accent rounded-xl py-1 px-4"
+            >
+              Log in
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("/logout")}
+              className="text-xl font-semibold bg-red-500 rounded-xl py-1 px-4"
+            >
+              Logout
+            </button>
+          )}
         </div>
       </div>
     </nav>

@@ -3,6 +3,7 @@ import { z } from "zod"
 import crypto from "crypto"
 import { createDiscordOAuthClient } from "./discord"
 // import { createGithubOAuthClient } from "./github"
+import { createGoogleOAuthClient } from "./google"
 import { env } from "process"
 import { oAuthProviders, OAuthProvider } from "../../nextjs/schemas"
 
@@ -142,7 +143,7 @@ export function getOAuthClient(provider: OAuthProvider) {
     case "github":
       return createDiscordOAuthClient()
     case "google":
-        return createDiscordOAuthClient()
+        return createGoogleOAuthClient()
     default:
       throw new Error(`Invalid provider: ${provider satisfies never}`)
   }
