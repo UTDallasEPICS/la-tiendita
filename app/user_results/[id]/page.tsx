@@ -70,7 +70,8 @@ export default function Page() {
           Back
         </button>
         <h3 className="font-semibold text-xl">
-          This user has taken {surveyResults.length} surveys
+          This user has taken {surveyResults.length}{" "}
+          {surveyResults.length == 1 ? "survey" : "surveys"}
         </h3>
       </div>
       <div className="flex flex-col gap-6 mt-2">
