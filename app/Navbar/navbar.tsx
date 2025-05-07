@@ -7,7 +7,7 @@ import logo3 from "../../public/logo3.jpeg";
 
 export default function Navbar() {
   const router = useRouter();
-
+  const userId = 1;
   return (
     <nav className="bg-primary text-white py-2 shadow-lg fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto px-8 flex justify-between items-center">
@@ -29,10 +29,10 @@ export default function Navbar() {
             href="/assessments"
             className="hover:text-gray-300 transition duration-300 py-1"
           >
-            Assessments
+            Surveys
           </Link>
           <Link
-            href="/results"
+            href={`/results/${userId}`}
             className="hover:text-gray-300 transition duration-300 py-1"
           >
             Results
