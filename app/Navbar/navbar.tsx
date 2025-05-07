@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import logo3 from "../../public/logo3.jpeg";
+import { LogOutButton } from "../auth/nextjs/components/LogOutButton";
 
 type User = {
   id: number;
@@ -59,12 +60,7 @@ export default function Navbar({ user }: { user: User | null }) {
               Log in
             </button>
           ) : (
-            <button
-              onClick={() => router.push("/logout")}
-              className="text-xl font-semibold bg-red-500 rounded-xl py-1 px-4"
-            >
-              Logout
-            </button>
+            <LogOutButton />
           )}
         </div>
       </div>
