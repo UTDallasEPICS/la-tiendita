@@ -141,6 +141,8 @@ export function getOAuthClient(provider: OAuthProvider) {
       return createDiscordOAuthClient()
     case "github":
       return createDiscordOAuthClient()
+    case "google":
+        return createDiscordOAuthClient()
     default:
       throw new Error(`Invalid provider: ${provider satisfies never}`)
   }
