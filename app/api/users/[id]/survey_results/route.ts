@@ -16,6 +16,7 @@ export async function GET(
     // Query the survey results with queried user ID
     const surveyResults = await prisma.surveyResult.findMany({
       where: { userId: queriedUserId },
+      include: {survey : true}
     })
 
     return NextResponse.json(surveyResults, { status: 200 })
