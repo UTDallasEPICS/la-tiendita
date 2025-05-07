@@ -28,32 +28,20 @@ export default async function login({
         <form className="max-w-[400px] text-text w-full mx-auto bg-white p-8">
           <h1 className="text-5xl font-bold text-center py-4">La Tiendita</h1>
           <h2 className="text-4xl font-bold text-center py-4 ">Log In</h2>
-          {/* <div className="flex justify-between py-8">
-            <p className="border shadow-lg hover:shadow-xl px-6 py-2 relative flex items-center">
-              <AiFillFacebook className="mr-2" /> Facebook
-            </p>
-            <p className="border shadow-lg hover:shadow-xl px-6 py-2 relative flex items-center">
-              <FcGoogle className="mr-2" /> Google
-            </p>
-          </div> */}
 
-          <p className="mb-4 border shadow-lg hover:shadow-xl px-6 py-2 relative flex items-center cursor-pointer">
+          <p className="mb-4 border shadow-lg hover:shadow-xl px-6 py-2 relative flex items-center rounded-lg cursor-pointer">
             <FcGoogle className="mr-2" /> Sign In With Google
           </p>
 
           <p
-            className="mb-4 border shadow-lg hover:shadow-xl px-6 py-2 relative flex items-center cursor-pointer"
+            className="mb-4 border shadow-lg hover:shadow-xl px-6 py-2 relative flex items-center rounded-lg cursor-pointer"
             onClick={async () => await oAuthSignIn("discord")}
           >
             <FaDiscord className="mr-2" /> Sign In With Discord
           </p>
 
-          <p className="mb-4 border shadow-lg hover:shadow-xl px-6 py-2 relative flex items-center cursor-pointer">
-            <FaMicrosoft className="mr-2" /> Sign In With Microsoft
-          </p>
-
           {oauthError && (
-            <p className="mb-4 border shadow-lg hover:shadow-xl font-bold px-6 py-2 relative flex items-center text-red-600">
+            <p className="mb-4 border shadow-lg hover:shadow-xl font-bold px-6 py-2 relative flex items-center rounded-lg text-red-600">
               {oauthError}
             </p>
           )}
