@@ -1,6 +1,17 @@
+"use client";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Tests from "./Tests";
 
+interface SurveyData {
+  id: number;
+  title: string;
+  description: string;
+  categories: string[];
+}
+
 export default function Assessment() {
+  const [surveys, setSurveys] = useState<SurveyData[]>([]);
   const tempImages = [
     "/logo3.jpeg",
     "/survey_1.png",
@@ -10,20 +21,31 @@ export default function Assessment() {
     "/survey_5.png",
     "/survey_6.png",
   ];
+
+  useEffect(() => {
+    const fetchSurveys = async () => {
+      try {
+        const response = await axios.get<SurveyData[]>("/api/surveys"); // replace with your actual endpoint
+        setSurveys(response.data);
+      } catch (error) {
+        console.error("Failed to fetch surveys:", error);
+      }
+    };
+
+    fetchSurveys();
+  }, []);
+
   return (
     <section className="mt-16 p-5 pt-0 max-w-5xl mx-auto">
-      <h1 className="text-text text-3xl font-bold text-center">
-        Our Assessments
-      </h1>
+      <h1 className="text-text text-3xl font-bold text-center">Our Surveys</h1>
       <div className="mt-4 flex flex-wrap justify-center gap-6">
-        {[0, 1, 2, 3, 4].map((id) => (
+        {surveys.map((assessment, index) => (
           <Tests
-            key={id}
-            link={`/survey/${id}`}
-            // image="/logo3.jpeg"
-            image={tempImages[Math.floor(Math.random() * tempImages.length)]}
-            assessment={`Test ${id + 1}`}
-            description="Developing a website and survey system for the non-profit La Tiendita as a Full Stack Developer in an EPICS project. Helping Hispanic children in underserved neighborhoods identify career paths based on their personalities, skills, and characteristics. Using React for front-end development, Next.js for the back end, and SQLite for the database."
+            key={assessment.id}
+            link={`/tempTake/${assessment.id}`}
+            image={tempImages[index % tempImages.length]}
+            assessment={assessment.title}
+            description={assessment.description}
           />
         ))}
       </div>
