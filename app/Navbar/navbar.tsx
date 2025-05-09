@@ -4,14 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo3 from "../../public/logo3.jpeg";
 import { LogOutButton } from "../auth/nextjs/components/LogOutButton";
-
-type User = {
-  id: number;
-  email: string;
-  role: "USER" | "ADMIN";
-  name?: string;
-};
-
+import { User } from "../lib/types";
 export default function Navbar({ user }: { user: User | null }) {
   const router = useRouter();
   const userId = user?.id;

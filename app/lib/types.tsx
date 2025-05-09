@@ -68,3 +68,10 @@ export interface SurveyResults {
   status: string;
   survey: Survey;
 }
+
+export interface User {
+  id: number;
+  email: string;
+  role: "USER" | "ADMIN";
+  name?: string;
+}
