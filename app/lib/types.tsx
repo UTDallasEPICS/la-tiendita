@@ -74,4 +74,6 @@ export interface User {
   email: string;
   role: "USER" | "ADMIN";
   name?: string;
+  phoneNumber?: string;
+  address?: string;
 }
