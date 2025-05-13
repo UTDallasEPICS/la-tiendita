@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import logo3 from "../../public/logo3.jpeg";
 import { LogOutButton } from "../auth/nextjs/components/LogOutButton";
-import { User } from "../lib/types";
-export default function Navbar({ user }: { user: User | null }) {
+import { useUser } from "../context/UserContext";
+export default function Navbar() {
   const router = useRouter();
+  const { user } = useUser();
   const userId = user?.id;
 
   return (
