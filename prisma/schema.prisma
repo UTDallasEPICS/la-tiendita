@@ -46,7 +46,8 @@ model User {
   role          Role           @default(USER)
   name          String
   email         String         @unique
-  phoneNumber   String?         
+  phoneNumber   String?     
+  address       String?    
   createdAt     DateTime       @default(now())
   surveyResults SurveyResult[] // Might remove this as it may not be necessary
   sessions      Session[]
