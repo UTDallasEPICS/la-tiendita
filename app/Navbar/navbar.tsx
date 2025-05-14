@@ -11,6 +11,12 @@ function NotLoggedInNav() {
   return (
     <div className="hidden md:flex space-x-8 text-xl font-semibold tracking-wide">
       <Link
+        href="/about"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        About
+      </Link>
+      <Link
         href="/assessments"
         className="hover:text-gray-300 transition duration-300 py-1"
       >
@@ -31,6 +37,12 @@ function UserNav() {
   const userId = user?.id;
   return (
     <div className="hidden md:flex space-x-8 text-xl font-semibold tracking-wide">
+      <Link
+        href="/about"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        About
+      </Link>
       <Link
         href="/assessments"
         className="hover:text-gray-300 transition duration-300 py-1"
@@ -69,6 +81,7 @@ function AdminNav() {
       >
         Create Survey
       </Link>
+
       <Link
         href="/profile"
         className="hover:text-gray-300 transition duration-300 py-1"
