@@ -34,9 +34,14 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <UserProvider user={user}>
-          <Navbar />
-          <main className="pt-10 pb-20">{children}</main>
-          <Footer />
+          {/* full-screen flex-col wrapper */}
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+
+            <main className="flex-grow pt-10 pb-20">{children}</main>
+
+            <Footer />
+          </div>
         </UserProvider>
       </body>
     </html>
