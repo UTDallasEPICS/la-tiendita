@@ -11,6 +11,7 @@ import {
   MCQQuestion as MultupleChoiceQuestionType,
 } from "../../lib/types";
 import axios from "axios";
+import { useUser } from "@/app/context/UserContext";
 interface SurveyTakerProps {
   survey: Survey;
   questionsPerPage: number;
@@ -20,6 +21,7 @@ const SurveyTaker: React.FC<SurveyTakerProps> = ({
   survey,
   questionsPerPage,
 }) => {
+  const { user } = useUser();
   const { id } = useParams();
   const [currentPage, setCurrentPage] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -104,7 +106,7 @@ const SurveyTaker: React.FC<SurveyTakerProps> = ({
     try {
       const surveyResult = {
         answersData: answers,
-        userId: 1, // I need to replace this with the get current user id function.
+        userId: user?.id, // I need to replace this with the get current user id function.
         status: "Complete" as const,
       };
 

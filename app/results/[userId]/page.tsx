@@ -7,6 +7,7 @@ import SurveyList from "../components/survey-list";
 import LoadingSpinner from "../../components/loading-spinner";
 import NotFound from "../../components/not-found";
 import { Survey, SurveyResults } from "@/app/lib/types";
+import { useUser } from "@/app/context/UserContext";
 
 export default function UserSurveysPage() {
   const [surveys, setSurveys] = useState<SurveyResults[]>([]);
@@ -15,14 +16,16 @@ export default function UserSurveysPage() {
   const [errorCode, setErrorCode] = useState<any | null>(null);
   const [message, setMessage] = useState<any | null>(null);
   const params = useParams();
-  const userId = params.userId;
+  const { user } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     const fetchSurveys = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/users/${userId}/survey_results`);
+        const response = await axios.get(
+          `/api/users/${user?.id}/survey_results`
+        );
         setSurveys(response.data);
         setError(null);
         setErrorCode(null);
@@ -37,13 +40,13 @@ export default function UserSurveysPage() {
       }
     };
 
-    if (userId) {
+    if (user?.id) {
       fetchSurveys();
     }
-  }, [userId]);
+  }, [user?.id]);
 
   const handleSurveyClick = (surveyId: number) => {
-    router.push(`${userId}/userSurveyResults/${surveyId}`);
+    router.push(`${user?.id}/userSurveyResults/${surveyId}`);
   };
 
   if (loading) {

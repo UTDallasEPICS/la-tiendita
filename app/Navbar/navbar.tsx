@@ -4,17 +4,108 @@ import Image from "next/image";
 import Link from "next/link";
 import { LogOutButton } from "../auth/nextjs/components/LogOutButton";
 import logo3 from "../../public/logo3.new.jpg";
+import { useUser } from "../context/UserContext";
 
-type User = {
-  id: number;
-  email: string;
-  role: "USER" | "ADMIN";
-  name?: string;
-};
-
-export default function Navbar({ user }: { user: User | null }) {
+function NotLoggedInNav() {
   const router = useRouter();
+  return (
+    <div className="hidden md:flex space-x-8 text-xl font-semibold tracking-wide">
+      <Link
+        href="/about"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        About
+      </Link>
+      <Link
+        href="/assessments"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        Surveys
+      </Link>
+      <button
+        onClick={() => router.push("/login")}
+        className="text-xl font-semibold bg-accent rounded-xl py-1 px-4"
+      >
+        Log in
+      </button>
+    </div>
+  );
+}
+
+function UserNav() {
+  const { user } = useUser();
   const userId = user?.id;
+  return (
+    <div className="hidden md:flex space-x-8 text-xl font-semibold tracking-wide">
+      <Link
+        href="/about"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        About
+      </Link>
+      <Link
+        href="/assessments"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        Surveys
+      </Link>
+      <Link
+        href={`/results/${userId}`}
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        Results
+      </Link>
+      <Link
+        href="/profile"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        Profile
+      </Link>
+      <LogOutButton />
+    </div>
+  );
+}
+
+function AdminNav() {
+  return (
+    <div className="hidden md:flex space-x-8 text-xl font-semibold tracking-wide">
+      <Link
+        href="/dashboard"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        Dashboard
+      </Link>
+      <Link
+        href="/tempCreate"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        Create Survey
+      </Link>
+
+      <Link
+        href="/profile"
+        className="hover:text-gray-300 transition duration-300 py-1"
+      >
+        Profile
+      </Link>
+      <LogOutButton />
+    </div>
+  );
+}
+
+export default function Navbar() {
+  const router = useRouter();
+  const { user } = useUser();
+  const userId = user?.id || "";
+
+  let NavComponent;
+  if (!user) {
+    NavComponent = <NotLoggedInNav />;
+  } else if (user.role === "ADMIN") {
+    NavComponent = <AdminNav />;
+  } else {
+    NavComponent = <UserNav />;
+  }
 
   return (
     <nav className="bg-primary text-white py-2 shadow-lg fixed top-0 left-0 w-full z-50">
@@ -26,43 +117,7 @@ export default function Navbar({ user }: { user: User | null }) {
             alt="logo"
           />
         </button>
-        <div className="hidden md:flex space-x-8 text-xl font-semibold tracking-wide">
-          <Link
-            href="/about"
-            className="hover:text-gray-300 transition duration-300 py-1"
-          >
-            About
-          </Link>
-          <Link
-            href="/assessments"
-            className="hover:text-gray-300 transition duration-300 py-1"
-          >
-            Surveys
-          </Link>
-          <Link
-            href={`/results/${userId ?? ""}`}
-            className="hover:text-gray-300 transition duration-300 py-1"
-          >
-            Results
-          </Link>
-          <Link
-            href="/profile"
-            className="hover:text-gray-300 transition duration-300 py-1"
-          >
-            Profile
-          </Link>
-
-          {!user ? (
-            <button
-              onClick={() => router.push("/login")}
-              className="text-xl font-semibold bg-accent rounded-xl py-1 px-4"
-            >
-              Log in
-            </button>
-          ) : (
-            <LogOutButton />
-          )}
-        </div>
+        {NavComponent}
       </div>
     </nav>
   );

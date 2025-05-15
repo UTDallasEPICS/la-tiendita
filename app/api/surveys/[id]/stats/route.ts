@@ -29,7 +29,7 @@ export async function GET(
 
     // Aggregation on the number users taken the 
     const map: Record<string, QuestionType> = {
-      'Scalar': QuestionType.FREE_RESPONSE, 
+      'Scalar': QuestionType.SCALAR, 
       'MCQ': QuestionType.MULTIPLE_CHOICE, 
       'FRQ': QuestionType.FREE_RESPONSE
     }

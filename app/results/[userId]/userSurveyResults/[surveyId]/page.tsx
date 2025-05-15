@@ -8,7 +8,7 @@ import axios from "axios";
 import NotFound from "../../../../components/not-found";
 import Loading from "../../../../components/loading";
 import Intro from "@/app/results/components/pie";
-
+import { useUser } from "@/app/context/UserContext";
 export default function UserSurveyResults() {
   const [surveyResults, setSurveyResults] = useState<SurveyResults | null>(
     null
@@ -18,7 +18,8 @@ export default function UserSurveyResults() {
   const [errorCode, setErrorCode] = useState<any | null>(null);
   const [message, setMessage] = useState<any | null>(null);
   const { surveyId } = useParams();
-  const userId = 1; // use get user id function.
+  const { user } = useUser();
+  const userId = user?.id; // use get user id function.
 
   const fetchData = async () => {
     try {
